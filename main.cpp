@@ -1,16 +1,89 @@
 #include <bits/stdc++.h>
 
 using namespace std;
-int rows=4;
-int columns=2;
+extern "C"
+{
+        struct parsedInfo {
+                int rows;
+                int cols;
+                int **arr;
+        };
+        struct parsedInfo *parser(char *filename);
+        int yyparse(void);
+        int yylex(void);  
+        int yywrap()
+        {
+                return 1;
+        }
+}
+
+
+int rows1=27;
+int columns=3;
+int nstrategy=3;
 
 vector<vector<int>> wds(columns);
 vector<vector<int>> vwds(columns);
 vector<vector<int>> comb;
 
+
+void FindNE(int player, int **u,vector<int> s,int **strategy, int *ne)
+{
+    int shift=1;
+    vector<int> visited(rows1,0);
+    for(int i=0;i<player;i++)
+    {
+        shift *=s[i];
+    }
+    int i=0;
+    multiset<int> set1;
+    int x=0;
+   
+    while(i<rows1)
+    {
+        
+        if(visited[i]==1)
+        {
+            i++;
+            continue;
+        }
+        x++;
+        int index=0;
+        int maxi=u[i][player];
+        visited[i]=1;
+        int a=0;
+        strategy[i][player]=a;
+    
+        for(int j=i+shift;j<i+(shift)*(s[player]);j+=shift)
+        {
+            a++;
+            strategy[j][player]=a;
+            if(u[j][player]>=maxi)
+            {
+                
+                ne[j]+=1; 
+                
+            }
+            else{
+                ne[j]=-1;
+            }
+
+
+
+            visited[j]=1;
+
+        }
+
+        i++;
+    }
+
+}
+
+
+
 void combinations(vector<vector<int> > array, int i, vector<int> accum)
 {
-    if (i == array.size()) // done, no more rows
+    if (i == array.size()) // done, no more rows1
     {
         comb.push_back(accum); // assuming comb is global
     }
@@ -32,7 +105,7 @@ void displaystrategies()
     {
         for (int j = 0; j < comb[i].size(); j++)
         {
-            cout<<comb[i][j]<<" ";
+            cout<<comb[i][j]+1<<" ";
         }
         comb[i].clear();
         cout<<endl;
@@ -41,16 +114,16 @@ void displaystrategies()
     
 }
 
-int SDS(int player, int u[4][2],vector<int> s)
+int SDS(int player, int **u,vector<int> s)
 {
     int shift=1;
-    vector<int> visited(rows,0),v;
+    vector<int> visited(rows1,0),v;
     for(int i=0;i<player;i++)
     {
         shift *=s[i];
     }
     int i=0;
-    while(i<rows)
+    while(i<rows1)
     {
         int flag=1;
         if(visited[i]==1)
@@ -97,10 +170,10 @@ int SDS(int player, int u[4][2],vector<int> s)
     }
     return prev;
 }
-void WDS(int player, int u[4][2],vector<int> s)
+void WDS(int player, int **u,vector<int> s)
 {
     int shift=1;
-    vector<int> visited(rows,0),v(s[player],0);
+    vector<int> visited(rows1,0),v(s[player],0);
     for(int i=0;i<player;i++)
     {
         shift *=s[i];
@@ -108,7 +181,7 @@ void WDS(int player, int u[4][2],vector<int> s)
     int i=0;
     multiset<int> set1;
     int x=0;
-    while(i<rows)
+    while(i<rows1)
     {
         
         if(visited[i]==1)
@@ -163,10 +236,10 @@ void WDS(int player, int u[4][2],vector<int> s)
        }
    
 }
-void VWDS(int player, int u[4][2],vector<int> s)
+void VWDS(int player, int **u,vector<int> s)
 {
     int shift=1;
-    vector<int> visited(rows,0);
+    vector<int> visited(rows1,0);
     for(int i=0;i<player;i++)
     {
         shift *=s[i];
@@ -174,7 +247,7 @@ void VWDS(int player, int u[4][2],vector<int> s)
     int i=0;
     multiset<int> set1;
     int x=0;
-    while(i<rows)
+    while(i<rows1)
     {
         
         if(visited[i]==1)
@@ -231,21 +304,29 @@ void VWDS(int player, int u[4][2],vector<int> s)
 
 
 
-int main()
+int main(int argc, char *argv[])
 {
-
-    int u[8][2],sds[columns];
+    cout<<endl;
+    struct parsedInfo *pi = parser(argv[1]);
+    rows1=pi->rows;
+    columns=pi->cols;
+    int **u = pi->arr;
     vector<int>s(columns);
-    s[0]=2;
-    s[1]=2;
-    u[0][0]=3;
-    u[0][1]=1;
-    u[1][0]=1;
-    u[1][1]=2;
-    u[2][0]=4;
-    u[2][1]=1;
-    u[3][0]=2;
-    u[3][1]=2;
+
+
+    for (int i = 0; i < columns; i++)
+    {
+        cout<<"Enter no of strategies for player "<<i+1<<" :";
+        cin>>s[i];
+    }
+    cout<<endl;
+    cout<<endl;
+    
+    int sds[columns];
+    
+
+
+
     for (int i = 0; i < columns; i++)
     {
         sds[i]=SDS(i,u,s);
@@ -258,7 +339,7 @@ int main()
     for (int i = 0; i < columns; i++)
     {
         if(sds[i]==-1)cout<<"Dominant Strategies for player "<<i+1<<" don't exist"<<endl;
-        else cout<<"Dominant Strategies for player "<<i+1<<" is "<<sds[i]<<endl;
+        else cout<<"Dominant Strategies for player "<<i+1<<" is "<<sds[i]+1<<endl;
     }
     cout<<endl;
 
@@ -273,7 +354,7 @@ int main()
             cout<<"Weakly Dominant Strategies for player "<<i+1<<" is: ";
             for (int j = 0; j < wds[i].size(); j++)
             {
-                cout<<wds[i][j]<<" ";
+                cout<<wds[i][j]+1<<" ";
             }
             cout<<endl;
             
@@ -293,7 +374,7 @@ int main()
             cout<<"Very Weakly Dominant Strategies for player "<<i+1<<" is: ";
             for (int j = 0; j < vwds[i].size(); j++)
             {
-                cout<<vwds[i][j]<<" ";
+                cout<<vwds[i][j]+1<<" ";
             }
             cout<<endl;
             
@@ -322,7 +403,7 @@ int main()
         cout<<"The SDSE for this game exists for the strategy: ";
         for (int i = 0; i < columns; i++)
         {
-           cout<<sdse[i]<<" ";
+           cout<<sdse[i]+1<<" ";
 
         }
         cout<<endl;
@@ -385,6 +466,24 @@ int main()
         cout<<"The VWDSE for this game dosen't exist"<<endl;
     }
     cout<<endl;
+    int **strategy;
+    strategy = new int*[rows1];
+    int ne[rows1];
 
+    for (int i = 0; i < rows1; i++)
+    {
+        strategy[i]= new int[columns];
+        ne[i]=0;
+    }
+  
+
+    for (int i = 0; i < columns; i++)
+    {
+        FindNE(i,u,s,strategy,ne);
+
+    }
+
+    
+    
     
 }
