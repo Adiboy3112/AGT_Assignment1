@@ -295,14 +295,15 @@ int main()
             {
                 cout<<vwds[i][j]<<" ";
             }
-            cout<<endl<<endl;
+            cout<<endl;
             
         }
 
     }
+    cout<<endl;
 
     // check for SDSE
-    
+    cout<<"Q4 Does SDS Equilibrium exist?"<<endl<<endl;
     bool SDSE=true;
     vector<int>sdse;
     for (int i = 0; i < columns; i++)
@@ -332,8 +333,9 @@ int main()
     {
         cout<<"The SDSE for this game dosen't exist"<<endl;
     }
-
+    cout<<endl;
     // check for WDSE
+    cout<<"Q5 Does WDS Equilibrium exist?"<<endl<<endl;
     bool WDSE=true;
 
     for(int i = 0; i < columns; i++)
@@ -356,8 +358,10 @@ int main()
     {
         cout<<"The WDSE for this game dosen't exist"<<endl;
     }
-
+    cout<<endl;
     // check for VWDSE
+    
+    cout<<"Q6 Does VWDS Equilibrium exist?"<<endl<<endl;
     bool VWDSE=true;
 
     for(int i = 0; i < columns; i++)
@@ -380,7 +384,7 @@ int main()
     {
         cout<<"The VWDSE for this game dosen't exist"<<endl;
     }
-
+    cout<<endl;
 
     
 }
