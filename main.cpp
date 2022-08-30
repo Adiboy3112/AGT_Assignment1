@@ -420,6 +420,7 @@ int main(int argc, char *argv[])
         cout<<"The SDSE for this game dosen't exist"<<endl;
     }
     cout<<endl;
+
     // check for WDSE
     cout<<"Q5 Does WDS Equilibrium exist?"<<endl<<endl;
     bool WDSE=true;
@@ -445,6 +446,7 @@ int main(int argc, char *argv[])
         cout<<"The WDSE for this game dosen't exist"<<endl;
     }
     cout<<endl;
+
     // check for VWDSE
     
     cout<<"Q6 Does VWDS Equilibrium exist?"<<endl<<endl;
@@ -471,6 +473,8 @@ int main(int argc, char *argv[])
         cout<<"The VWDSE for this game dosen't exist"<<endl;
     }
     cout<<endl;
+
+    // Check for NE dosent (work properly yet)
     int **strategy;
     strategy = new int*[rows1];
     int ne[rows1];
