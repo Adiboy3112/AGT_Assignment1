@@ -205,6 +205,7 @@ void WDS(int player, int **u,vector<int> s)
                 set1.erase(set1.find(index));
                 index=a;
                 set1.insert(index);
+                v[index]=1;
             
             }
             else if(u[j][player]==maxi)
