@@ -18,9 +18,9 @@ extern "C"
 }
 
 
-int rows1=27;
-int columns=3;
-int nstrategy=3;
+int rows1=1;
+int columns=1;
+
 
 vector<vector<int>> wds(columns);
 vector<vector<int>> vwds(columns);
@@ -229,6 +229,7 @@ void WDS(int player, int **u,vector<int> s)
        {
             if(set1.count(i)==x&&v[i]==1)
             {
+            
                 wds[player].push_back(i);
                
             }
@@ -307,13 +308,16 @@ void VWDS(int player, int **u,vector<int> s)
 int main(int argc, char *argv[])
 {
     cout<<endl;
+    // getinfo from lex
     struct parsedInfo *pi = parser(argv[1]);
     rows1=pi->rows;
     columns=pi->cols;
     int **u = pi->arr;
     vector<int>s(columns);
+    wds.resize(columns);
+    vwds.resize(columns);
 
-
+    // strategies of player
     for (int i = 0; i < columns; i++)
     {
         cout<<"Enter no of strategies for player "<<i+1<<" :";
@@ -326,7 +330,7 @@ int main(int argc, char *argv[])
     
 
 
-
+    // calculate dominant strategies
     for (int i = 0; i < columns; i++)
     {
         sds[i]=SDS(i,u,s);
