@@ -253,7 +253,56 @@ int main()
         VWDS(i,u,s);
     
     }
+    cout<<"Q1 Does Dominant Strategies exist?"<<endl<<endl;
+    // display dominant strategies
+    for (int i = 0; i < columns; i++)
+    {
+        if(sds[i]==-1)cout<<"Dominant Strategies for player "<<i+1<<" don't exist"<<endl;
+        else cout<<"Dominant Strategies for player "<<i+1<<" is "<<sds[i]<<endl;
+    }
+    cout<<endl;
+
+    // display weakly dominant strategies
+    cout<<"Q2 Does Weakly Dominant Strategies exist?"<<endl<<endl;
+
+    for (int i = 0; i < columns; i++)
+    {
+        if(wds[i].empty())cout<<"Weakly Dominant Strategies for player "<<i+1<<" don't exist"<<endl;
+        else 
+        {
+            cout<<"Weakly Dominant Strategies for player "<<i+1<<" is: ";
+            for (int j = 0; j < wds[i].size(); j++)
+            {
+                cout<<wds[i][j]<<" ";
+            }
+            cout<<endl;
+            
+        }
+    
+
+    }
+    cout<<endl;
+    // display very weakly dominant strategies
+    cout<<"Q3 Does Very Weakly Dominant Strategies exist?"<<endl<<endl;
+
+    for (int i = 0; i < columns; i++)
+    {
+        if(vwds[i].empty())cout<<"Very Weakly Dominant Strategies for player "<<i+1<<" don't exist"<<endl;
+        else 
+        {
+            cout<<"Very Weakly Dominant Strategies for player "<<i+1<<" is: ";
+            for (int j = 0; j < vwds[i].size(); j++)
+            {
+                cout<<vwds[i][j]<<" ";
+            }
+            cout<<endl<<endl;
+            
+        }
+
+    }
+
     // check for SDSE
+    
     bool SDSE=true;
     vector<int>sdse;
     for (int i = 0; i < columns; i++)
